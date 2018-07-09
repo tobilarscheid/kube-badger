@@ -1,0 +1,44 @@
+rbac:
+  create: true
+  clusterrole:
+    rules:
+      - apiGroups:
+          - ""
+        resources:
+          - pods
+        verbs:
+          - get
+      - apiGroups:
+          - "extensions"
+        resources:
+          - deployments
+        verbs:
+          - get
+
+ingress:
+  enabled: true
+  annotations: {}
+  paths: 
+    - "/badge/"
+  hosts:
+    - chart-example.local
+  tls: []
+
+replicaCount: 1
+
+image:
+  repository: tobiaslarscheid/kube-badger
+  tag: 0.1.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
