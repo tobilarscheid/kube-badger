@@ -1,8 +1,26 @@
 # kube-badger
 The most flexible way to generate badges representing what happens in your cluster.
 
+# Example
+
+Basically, you can turn every information available from the kubernetes API into a badge:
+
+![badge: image petstore:v-1.1.2](https://img.shields.io/badge/image-petstore:v--1.1.2-lightgrey.svg)
+
+![badge: desired replicas](https://img.shields.io/badge/desired_replicas-5-blue.svg)
+
+![badge: available replicas 1](https://img.shields.io/badge/available_replicas-1-red.svg)
+
+![badge: version-label 1.1.2](https://img.shields.io/badge/version--label-1.1.2-green.svg)
+
+![badge: clusterIP 10.111.204.106](https://img.shields.io/badge/clusterIP-10.111.204.106-yellow.svg)
+
+![badge: IngressIP 10.0.2.15](https://img.shields.io/badge/IngressIP-10.0.2.15-orange.svg)
+
 # How does it work
-To generate a badge, you pass the full link to a kubernetes API resource and an optional [`jq`](https://stedolan.github.io/jq/) string to filter the resource to the badger.
+To generate a badge, you pass the full link to a kubernetes API resource and an optional [`jq`](https://stedolan.github.io/jq/) string to filter the resource to the badger:
+
+`https://<YOUR-CLUSTER>/badge/<API-RESOURCE>?jq=<FILTER>&<ADDITIONAL-PARAMS>`
 
 Suppose you have a deployment in your cluster:
 ```json
@@ -11,14 +29,12 @@ Suppose you have a deployment in your cluster:
     "kind": "Deployment",
     "metadata": {
         "labels": {
-            "app": "petstore",
             "version": "2"
         },
         "name": "petstore",
-        "namespace": "default",
         "selfLink": "/apis/extensions/v1beta1/namespaces/default/deployments/petstore"
     },
-    "spec": { ... }
+    "spec": {}
 }
 
 ```
@@ -28,17 +44,17 @@ Now, let's say you wanted a badge stating the currently deployed version. You re
 
 You will receive the following badge:
 
-![apis/extensions/v1beta1/namespaces/default/deployments/petstore 2](https://img.shields.io/badge/apis/extensions/v1beta1/namespaces/default/deployments/petstore-2-grey.svg)
+![badge: apis/extensions/v1beta1/namespaces/default/deployments/petstore 2](https://img.shields.io/badge/apis/extensions/v1beta1/namespaces/default/deployments/petstore-2-grey.svg)
 
 You can customize the badge by passing some more query parameters:
 
 `&label=petstore-version`
 
-![petstore-version 2](https://img.shields.io/badge/petstore--version-2-grey.svg)
+![badge: petstore-version 2](https://img.shields.io/badge/petstore--version-2-grey.svg)
 
 `&color=green`
 
-![apis/extensions/v1beta1/namespaces/default/deployments/petstore 2](https://img.shields.io/badge/apis/extensions/v1beta1/namespaces/default/deployments/petstore-2-green.svg)
+![badge: apis/extensions/v1beta1/namespaces/default/deployments/petstore 2](https://img.shields.io/badge/apis/extensions/v1beta1/namespaces/default/deployments/petstore-2-green.svg)
 
 # Installation
 
